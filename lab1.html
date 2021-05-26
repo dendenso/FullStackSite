@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <title>Lab</title>
+        <meta charset="utf-8">
+        <script>
+            function checkUsername()
+            {
+            	document.getElementById("userError").innerHTML =" ";
+                var regexp = /^[A-Za-z]+$/;
+                var tempvar = userName.value;
+                if(userName.value === "")
+                {
+                    document.getElementById("userError").innerHTML = "<span style='color: red;'>username can't be empty</span>";
+                    return false;
+                }
+                if(regexp.test(tempvar)){
+                	document.getElementById("userError").innerHTML =" ";
+                	return true;
+                }
+                document.getElementById("userError").innerHTML = "<span style='color: red;'>letters only >:(</span>";
+                return false;
+            }
+            function checkPassword() {
+            	var regex = /[a-z]/;
+            	var numX = /[0-9]/;
+            	var regeX = /[A-Z]/;
+            	var passwordVar = password.value;
+            	if(passwordVar === ""){
+            		document.getElementById("passError").innerHTML = "<span style='color: red;'>password cannot be empty</span>";
+            		return false;
+            	}
+            	else if(!regex.test(passwordVar)){
+            		document.getElementById("passError").innerHTML = "<span style='color: red;'>please input lowercase,uppercase characters and numbers</span>";
+            		return false;
+            	}
+            	else if(!numX.test(passwordVar)){
+            		document.getElementById("passError").innerHTML = "<span style='color: red;'>please input lowercase,uppercase characters and numbers</span>";
+            		return false;
+            	}
+            	else if(!regeX.test(passwordVar)){
+            		document.getElementById("passError").innerHTML = "<span style='color: red;'>please input lowercase,uppercase characters and numbers</span>";
+            		return false;
+            	}
+            	else {
+            		document.getElementById("passError").innerHTML = " ";
+            	}
+            	return true;
+            }
+            function checkID(){
+            	var ID = studentID.value;
+            	var numX = /^[0-9]{9}$/;
+            	if(ID === ""){
+            		document.getElementById("idError").innerHTML = "<span style='color: red;'>please input your ID</span>";
+            		return false;
+            	}
+            	if(!numX.test(ID)){
+            		document.getElementById("idError").innerHTML =
+            		"<span style='color: red;'> input 9 numbers only</span>";
+            		return false;
+            	}
+            	else{
+            		document.getElementById("idError").innerHTML = " ";
+            		return true;
+            	}
+            	return true;
+            }
+
+            function buttonClick(){
+                var count = 0;
+                var result = document.getElementById("result");
+
+                if(!checkUsername()){
+                    document.body.style.backgroundColor = "yellow";
+                }
+                if(!checkPassword()){
+                	document.body.style.backgroundColor = "yellow";
+                }
+                if(!checkID()){
+                	document.body.style.backgroundColor = "yellow";
+                }
+                //if(count == 1){
+                	if(checkID() && checkPassword() && checkUsername()){
+                	result.innerHTML = "GREAT SUCCESS";
+                	document.getElementById("idError").setAttribute("disabled", "disabled");
+                	document.getElementById("passError").setAttribute("disabled", "disabled");
+                	document.getElementById("userError").setAttribute("disabled", "disabled");
+                	document.body.style.backgroundColor = "green";
+                }
+
+            }
+            function checkTextArea(){
+            	var contents = document.getElementById("thetextArea").value;
+            	console.log(contents);
+            	var contentsLen = contents.split(" ");
+            	var wordCount = 25 - contentsLen.length;
+
+            	document.getElementById("wordcount").innerHTML = wordCount;
+
+            	if(wordCount == 0){
+            		document.getElementById("textError").innerHTML ="<span style='color: red;'> 25 word maximum</span>";
+            		document.getElementById("thetextArea").disabled = true;
+
+            	}
+            }
+
+            function init(){
+               userName = document.getElementById("userName");
+             btn = document.getElementById("btn");
+             password = document.getElementById("password");
+             studentID = document.getElementById("studentID");
+             thetextArea = document.getElementById("thetextArea");
+
+                userName.addEventListener("keyup",checkUsername);
+                btn.addEventListener("click",buttonClick);
+                studentID.addEventListener("keyup",checkID);
+                password.addEventListener("keyup",checkPassword);
+                thetextArea.addEventListener("keydown",checkTextArea);
+
+
+            }
+            window.addEventListener("load",init);
+        </script>
+    </head>
+    <body>
+        <form method="get" action="#">
+            <label>Username:<input type= "text" id="userName"></label>
+            <div id="userError"></div>
+            <label>Password: <input type="text" id="password"></label>
+            <div id="passError"></div>
+            <label> StudentID: <input type="text" id="studentID" maxlength="9"></label>
+            <div id="idError"></div>
+            <label> Message: <textarea id="thetextArea"></textarea>
+            	<br>
+            	# of words: <span id="wordcount">0</span>
+            	<div id="textError"></div>
+            <input type="button" value="submit" id="btn">
+            <div id="result"></div>
+         </form>
+     </body>
+</html>
